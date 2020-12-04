@@ -1,5 +1,6 @@
 require('./config/config');
-const express = require('express')
+const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require ('body-parser');
 const app = express();
 
@@ -24,7 +25,8 @@ app.get('/usuario', function (req, res) {
       let body= req.body;
 
 
-      if (nombre === undefined){
+      if (nombre === undefined ){
+        
         res.status(400).json({
          ok: 400,
          mensaje: 'favor de mandar el nombre'
@@ -62,6 +64,16 @@ res.json({
       id:id
   })
   });
+    mongoose.connect('mongodb://localhost:27017/cafeteria',{
+      useNewUrlParser: true,
+      useCreateIndex:true,
+      useUnifiedTopology:true,
+      useFindAndModify:false
+
+    } ,(err,res) => {
+    if(err) throw err;
+    console.log('base de datos online')
+    });
    
 app.listen(process.env.PORT, () => {
     console.log('el puerto esta en linea por el puerto ', process.env.PORT);
